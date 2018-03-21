@@ -1,3 +1,5 @@
+#Unit2/Intro to Collections/Class1
+
 '''
 1) Create Empty List
 
@@ -277,6 +279,152 @@ def test_odd_with_red():
 
 def test_odd_without_red():
     assert is_even_and_contains_red(['blue', 'green', 'white']) == False
+
+
+
+'''
+9) Remove from List
+
+Let's fix this list and make it better by removing the word "not" from it. Use the remove method.
+'''
+
+not_a_lie = ["i", "am", "not", "perfect"]
+
+not_a_lie.remove('not')
+print(not_a_lie)
+
+# Test Cases
+
+def test_remove():
+    assert not_a_lie == ["i", "am", "perfect"]
+
+
+
+'''
+10) Pop from List
+
+Pop element 2 from this_list_is_poppin and store the result in the variable i_am_really.
+'''
+
+this_list_is_poppin = ["have", "a", "great", "day"]
+
+# Replace the ? below with your code to pop!
+i_am_really = this_list_is_poppin.pop(2)
+print(i_am_really)
+print(this_list_is_poppin)
+
+# Test Cases
+
+def test_pop():
+    assert this_list_is_poppin == ["have", "a", "day"]
+    assert i_am_really == "great"
+
+
+
+'''
+11) Get Bookmark Index
+
+Complete the function get_bookmark_index so that it searches the parameter list_of_pages
+and returns the index of the word "bookmark".
+'''
+
+def get_bookmark_index(list_of_pages):
+    return list_of_pages.index("bookmark")
+
+# Test Cases
+
+def test_get_bookmark_index():
+    assert get_bookmark_index([27, 35, 100, "bookmark", 111]) == 3
+
+
+
+'''
+12) Get Third Element
+
+Complete the get_third_elem function so it always returns the third element in the list.
+Because the first two elements looked at us funny.
+'''
+
+def get_third_elem(list_of_stuff):
+    return list_of_stuff[2]
+
+# Test Cases
+
+def test_get_third_elem():
+    assert get_third_elem(["not this one", "not this either", "this one!!!"]) == "this one!!!"
+
+
+
+'''
+13) Get Second to Last Element
+
+Using indexes to count forwards in lists is cool, but going in reverse has style.
+
+Complete the get_second_to_last_elem function so it always returns the second to last element from the end of the list.
+'''
+
+def get_second_to_last_elem(list_of_stuff):
+    return list_of_stuff[-2]
+
+# Test Cases
+
+def test_second_to_last_elem():
+    assert get_second_to_last_elem([1, 2, 3, 4, 5, 6, 7, 8, 'MEMEMEMEMEEEE', 9]) == 'MEMEMEMEMEEEE'
+
+
+
+'''
+1) Create a one element tuple
+
+The function one_element_tuple currently returns the value None. Modify it to return a tuple containing just 1 element, the one passed as a parameter:
+
+one_element_tuple('a')  # ('a', )
+one_element_tuple(9)    # (9, )
+'''
+
+def one_element_tuple(arg):
+    return (arg,)
+
+# Test Cases
+
+def test_with_integer():
+    assert one_element_tuple(7) == (7, )
+
+def test_with_string():
+    assert one_element_tuple('rmotr') == ('rmotr', )
+
+
+
+'''
+2) Transform list to tuple
+
+Write a function list_2_tuple that takes a list as a parameter and returns a tuple containing the same elements. Example:
+
+list_2_tuple([1, 'c', 9, False])  # (1, 'c', 9, False)
+list_2_tuple([2])                 # (2,)
+'''
+
+def list_2_tuple(a_list):
+    return tuple(a_list)
+
+# Test Cases
+
+def test_with_many_elements():
+    assert list_2_tuple(['a', 3, True, 9]) == ('a', 3, True, 9)
+
+def test_with_one_element():
+    assert list_2_tuple([7]) == (7, )
+
+
+
+
+
+
+
+
+
+
+
 
 
 
