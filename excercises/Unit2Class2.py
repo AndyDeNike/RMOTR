@@ -269,7 +269,7 @@ def test_count_occurrences_all_unique():
 
 
 #___________________________________________________________________
-
+# Collections Part 2 
 
 
 '''
@@ -372,4 +372,296 @@ def test_search_not_found():
     }
     assert search_keys_for_value(a_dict, "howdy") == set()
 
+
+
+#___________________________________________________________________
+# Quiz week 2
+
+
+'''
+1) Tuple Count
+
+Complete the function tuple_count so that it receives a_tuple and returns a dictionary with a key of each item in the tuple and a value of the count of how many occurrences it has.
+
+tuple_count(('a', 'b', 'a', 'b', 'b', 'c', 'd')) == {
+    'b': 3,
+    'd': 1,
+    'a': 2,
+    'c': 1
+}
+'''
+
+def tuple_count(a_tuple):
+    count = {}
+    for letter in a_tuple:
+        count.setdefault(letter, 0) #create default value for given key 
+        count[letter] += 1
+    return count
+    
+# Test Cases 
+
+def test_tuple_count_with_values():
+    assert tuple_count(('a', 'a', 'b', 'b', 'b', 'c', 'd')) == {'b': 3, 'd': 1, 'a': 2, 'c': 1}
+
+def test_tuple_count_empty():
+    assert tuple_count(tuple()) == {}
+
+
+
+'''
+2) Analyze String
+
+Write a function that takes a large string, cleans it up and breaks it into individual words, counts how many times each word is used, and then returns a list of words that are repeated.
+
+That sounds like a lot of things, so break it up into two functions and simplify the problem.
+
+Complete the functions count_words so that it receives a_string as an input and processes the string so it becomes a list of words. Then return a dictionary with a each word in the list as a key and how many times that word is repeated (the count) as the value.
+
+Then complete the function get_list_of_duplicates that receives that word count dictionary and returns a SORTED list of each of the items in it that are repeated more than once.
+
+We need to sort the final list answer because dictionaries are unordered and lists are ordered, so when we are creating our list it will likely be created in a different order each run.
+
+string = """Happy Python Programming Programming Programming Happy Me"""
+
+count_words(string) == {"Me": 1, "Python": 1, "Programming": 3, "Happy": 2}
+get_list_of_duplicates({"Me": 1, "Python": 1, "Programming": 3, "Happy": 2}) == ["Happy", "Programming"]
+'''
+
+def count_words(a_string):
+    split_string = a_string.split()
+    word_count = {}
+    for word in split_string:
+        word_count.setdefault(word, 0)
+        word_count[word] += 1 
+    return word_count 
+
+
+def get_list_of_duplicates(word_count_dict):
+    copy_list = [word for word, count in word_count_dict.items() if count > 1]
+    return sorted(copy_list)
+
+# Test Cases 
+
+def test_dictionary_with_count():
+    string = """Happy Python Programming Programming Programming Happy Me"""
+
+    assert count_words(string) == {"Me": 1, "Python": 1, "Programming": 3, "Happy": 2}
+
+def test_list_of_duplicates():
+    string = """Happy Python Programming Programming Programming Happy Me"""
+
+    result = ["Happy", "Programming"]
+
+    assert get_list_of_duplicates(count_words(string)) == result
+
+
+
+'''
+3) Sum of Dict Values
+
+Write a function sum_of_dict_values that receives 3 dictionaries as parameters: d1, d2, and d3. Get the sum of the values for each matching key 3 dictionaries, and return a new dictionary showing the results of each. If there is a non-integer as a value, set the value to None for that key.
+
+Example:
+
+Add all the values with the key 'a' together, and you get the sum 22.
+
+d1 = {
+    'a': 10,
+    'b': 30,
+    'c': 5
+}
+
+d2 = {
+    'a': 7,
+    'b': 22,
+    'c': 90
+}
+
+d3 = {
+    'a': 5,
+    'b': 1,
+    'c': 'hello'
+}
+
+result == {
+    'a': 22,
+    'b': 53,
+    'c': None  # d3 has an invalid value, can't be handled
+}
+
+sum_of_dict_values(d1, d2, d3) == result
+'''
+#both belowfuncitons combine to yield accurate result 
+def individual_dictionary_process(original_dict, final_dict):
+    for key, value in original_dict.items():
+        if type(value) != int:
+            final_dict[key] = None
+        else:
+            final_dict.setdefault(key, 0)
+            final_dict[key] += value 
+        
+def sum_of_dict_values(d1, d2, d3):
+    final_dict = {}
+    individual_dictionary_process(d1, final_dict)
+    individual_dictionary_process(d2, final_dict)
+    individual_dictionary_process(d3, final_dict)
+    return final_dict
+
+# Test Cases
+
+def test_sum_of_dict_values():
+    d1 = {
+        'a': 10,
+        'b': 30,
+        'c': 5
+    }
+
+    d2 = {
+        'a': 7,
+        'b': 22,
+        'c': 90
+    }
+
+    d3 = {
+        'a': 5,
+        'b': 1,
+        'c': 'hello'
+    }
+
+    result = {
+        'a': 22,
+        'b': 53,
+        'c': None
+    }
+
+    assert sum_of_dict_values(d1, d2, d3) == result
+
+
+'''
+4) Saving the Largest Value
+
+Write a function get_largest_numbers that receives 3 dictionaries as parameters: d1, d2, and d3. Get the highest integer value for each dictionary, and return a new dictionary showing the results of each. If there is a non-integer as a value, ignore it. If none of the values are integers, set that result value to None. Your keys in your result dictionary will be the name of each dictionary parameter (hardcoded to "d1", "d2", and "d3").
+
+Example:
+
+Add all the values with the key 'a' together, and you get the sum 22.
+
+d1 = {
+    'a': 30,
+    'b': 10,
+    'c': 5
+}
+
+d2 = {
+    'a': 7,
+    'b': 'hi',
+    'c': 90
+}
+
+d3 = {
+    'a': 'aloha',
+    'b': 'howdy',
+    'c': 'hello'
+}
+
+result = {
+    'd1': 30,
+    'd2': 90,
+    'd3': None
+}
+
+sum_of_dict_values(d1, d2, d3) == result
+'''
+#both funcitons combine to yield accurate result 
+def largest_number_in_dict(indv_dict):
+    largest = None
+    for value in indv_dict.values():
+        if type(value) == int:
+            if largest == None:
+                largest = value
+            else:
+                if value > largest:
+                    largest = value 
+    return largest 
+        
+def get_largest_numbers(d1, d2, d3):
+    return {'d1': largest_number_in_dict(d1), 'd2': largest_number_in_dict(d2), 'd3': largest_number_in_dict(d3)}
+    
+# Test Cases
+
+def test_largest_values():
+    d1 = {
+        'a': 30,
+        'b': 10,
+        'c': 5
+    }
+
+    d2 = {
+        'a': 7,
+        'b': 'hi',
+        'c': 90
+    }
+
+    d3 = {
+        'a': 'aloha',
+        'b': 'howdy',
+        'c': 'hello'
+    }
+
+    result = {
+        'd1': 30,
+        'd2': 90,
+        'd3': None
+    }
+
+    assert get_largest_numbers(d1, d2, d3) == result
+
+
+
+'''
+5) Censor Your Dictionary
+
+The government wants you to "update" some books (in our case, dictionaries) and remove the words with descriptions including certain words. Write a function censor_dictionary that receives an dictionary named unclean_dictionary and a string flagged_word. If the flagged_word is in the description (value) of a word (key), remove the word (key-value pair) from the dictionary.
+
+Hint:
+You can use pop or del to remove key-value pairs.
+
+expressions = {
+    "pumped": "I'm so darn excited!",
+    "happy": "Yeehaw",
+    "agreeable": "darn tootin!"
+}
+
+assert censor_dictionary(expressions, "darn") == {"happy": "Yeehaw"}
+'''
+
+def censor_dictionary(unclean_dictionary, flagged_word):
+    clean_dictionary = {}
+    for key, value in unclean_dictionary.items():
+        if flagged_word not in value:
+            clean_dictionary[key] = value
+    return clean_dictionary
+
+#OR the less optimal version using pop 
+def censor_dictionary(unclean_dictionary, flagged_word):
+    removal_list = []
+    for word, description in unclean_dictionary.items():
+        if flagged_word in description:
+            removal_list.append(word)
+    for word in removal_list:
+        unclean_dictionary.pop(word)
+    return unclean_dictionary
+
+# Test Cases 
+
+def test_censor_dictionary():
+    expressions = {
+       "pumped": "I'm so darn excited!",
+       "happy": "Yeehaw",
+       "agreeable": "darn tootin!"
+    }
+
+    assert censor_dictionary(expressions, "darn") == {
+        "happy": "Yeehaw"
+    }
 
