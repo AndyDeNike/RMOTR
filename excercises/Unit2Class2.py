@@ -56,7 +56,8 @@ rmotr_dict = {
     'courses': ['Intro to Python', 'Advanced Pyhton'],
 }
 
-rmotr_dict.update({  #this will override your current keys
+rmotr_dict.update({  #this will override your current keys but potentially 
+                     #add non existing keys 
     'name' : 'rmotr.com',
     'email' : 'questions@rmotr.com',
     'courses' : ['Intro to Python', 'Advanced Pyhton', 'Django Web Development']
@@ -266,11 +267,109 @@ def test_count_occurrences_all_unique():
     assert count_occurrences(["a", "b", "c"]) == {"a": 1, "b": 1, "c": 1}
 
 
-        
+
+#___________________________________________________________________
 
 
 
+'''
+1) Sets
+
+Given a list, remove the duplicates from it, noting that a set always has unique elements. Be sure to return a list as the function's output.
+
+remove_duplicates([5, 6, 1, 1, 1, 7, 7, 2, 6, 5]) #[5,6,1,7,2]
+'''
+             
+def remove_duplicates(target_list):
+    return list(set(target_list))
+
+# Test Cases
+
+def test_remove_duplicates_with_occurrences():
+    assert remove_duplicates([1, 1, 1, 1, 1, 3, 4, 5, 5, 5]) == [1, 3, 4, 5]
 
 
-               
+
+'''
+2) Set Operations (Union)
+
+Create a function that will return a set of all elements in at least one of the tuples.
+
+tuple_1 = (1, 5, 6, 4, 8)
+tuple_2 = (1, 6, 10, 5)
+
+common_values(tuple_1, tuple_2)  #{1, 4, 5, 6, 8, 10}
+'''
+
+def common_values(tuple1, tuple2):
+    return set(tuple1) | set(tuple2) #union
+
+# Test Cases
+
+def test_without_repeated_values():
+    assert common_values((4, 5, 6, 7), (1, 2, 3)) == {1, 2, 3, 4, 5, 6, 7}
+
+test with repeated values - Run Test
+
+def test_with_repeated_values():
+    assert common_values((1, 5, 7, 1, 24), (1, 2, 3, 4)) == {1, 2, 3, 4, 5, 7, 24}
+
+
+
+'''
+3) Search keys for value
+
+Write a function that receives a dictionary and a value to search for as input. Return a set with all the keys from the dictionary that have that value.
+
+search_keys_for_value({"name" : "Billy", "age" : 12, "fav_num" : 12}, 12)
+
+# {"age", "fav_num"}
+'''
+
+def search_keys_for_value(a_dictionary, search_term):
+    search_results = []
+    for i in a_dictionary:
+        if search_term == a_dictionary[i]:
+            search_results.append(i)
+    return set(search_results)
+
+#OR 
+
+def search_keys_for_value(a_dictionary, search_term):
+    result_set = set()
+    for key, value in a_dictionary.items():
+        if value == search_term:
+            result_set.add(key)
+return result_set
+
+# Test Cases
+
+def test_search_for_number():
+    a_dict = {
+        "name": "billy",
+        "age": 12,
+        "fav_num": 12
+    }
+    assert search_keys_for_value(a_dict, 12) == {'fav_num', 'age'}
+
+test search for word - Run Test
+
+def test_search_for_word():
+    a_dict = {
+        1: "hi",
+        2: "there",
+        3: "easter egg"
+    }
+    assert search_keys_for_value(a_dict, "easter egg") == {3}
+
+test search not found - Run Test
+
+def test_search_not_found():
+    a_dict = {
+        "a": "i",
+        "b": "love",
+        "c": "programming"
+    }
+    assert search_keys_for_value(a_dict, "howdy") == set()
+
 
