@@ -62,7 +62,8 @@ def profile(request):
         'render' function imported from Django.
         Make sure to replace the values inside the template in the proper places.
     """
-    pass
+    me = {'name': 'Joonny Tohottie', 'age': 1230}
+    return render(request, 'profile.html', context=me)
 
 
 
