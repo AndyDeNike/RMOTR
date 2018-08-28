@@ -32,17 +32,17 @@ def artists(request):
     
     #pass first_name parameter in url as so: 
     #http://wdc-django-practice-2.c9users.io:8080/artists/?first_name=Ed
-    first_name = request.GET.get('first_name')
-    if first_name:
-        artists = artists.filter(first_name__icontains=first_name)
+    url_parameter_first_name = request.GET.get('first_name')
+    if url_parameter_first_name:
+        artists = artists_objects.filter(first_name__icontains=url_parameter_first_name)
     
-    popularity = request.GET.get('popularity')
-    if popularity: 
-        artists = artists.filter(popularity__gte=popularity)
+    url_parameter_popularity = request.GET.get('popularity')
+    if url_parameter_popularity: 
+        artists = artists.filter(popularity__gte=url_parameter_popularity)
         
-    genre = request.GET.get('genre')
-    if genre:
-        artists = artists.filter(genre=genre)
+    url_parameter_genre = request.GET.get('genre')
+    if url_parameter_genre:
+        artists = artists.filter(genre=url_parameter_genre)
 
     return render(request, 'artists.html', context={'artists': artists})
 
