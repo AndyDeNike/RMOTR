@@ -35,9 +35,12 @@ def artists(request):
     first_name = request.GET.get('first_name')
     if first_name:
         artists = artists.filter(first_name__icontains=first_name)
+    
+    popularity = request.GET.get('popularity')
+    if popularity: 
+        artists = artists.filter(popularity__gte=popularity)
 
     return render(request, 'artists.html', context={'artists': artists})
-
 
 def artist(request, artist_id):
     """
