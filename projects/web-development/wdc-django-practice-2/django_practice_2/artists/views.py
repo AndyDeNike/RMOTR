@@ -28,9 +28,15 @@ def artists(request):
             before. If genre param is given, filter the artists queryset only with
             artists from that genre.
     """
-    all_artists = Artist.objects.all()
+    artists = Artist.objects.all()
+    
+    #pass first_name parameter in url as so: 
+    #http://wdc-django-practice-2.c9users.io:8080/artists/?first_name=Ed
+    first_name = request.GET.get('first_name')
+    if first_name:
+        artists = artists.filter(first_name__icontains=first_name)
 
-    return render(request, 'artists.html', context={'artists': all_artists})
+    return render(request, 'artists.html', context={'artists': artists})
 
 
 def artist(request, artist_id):
