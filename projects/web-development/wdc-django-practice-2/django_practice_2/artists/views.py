@@ -28,7 +28,9 @@ def artists(request):
             before. If genre param is given, filter the artists queryset only with
             artists from that genre.
     """
-    pass
+    all_artists = Artist.objects.all()
+
+    return render(request, 'artists.html', context={'artists': all_artists})
 
 
 def artist(request, artist_id):
