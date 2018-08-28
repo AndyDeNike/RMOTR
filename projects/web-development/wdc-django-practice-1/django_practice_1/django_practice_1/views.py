@@ -35,7 +35,7 @@ def my_age(request, year, month, day):
         return HttpResponseBadRequest()
         
     difference = datetime.now() - birthday
-    return HttpResponse("Your age is {} years old".format(difference.days/365))
+    return HttpResponse("Your age is {} years old".format(round(difference.days/365, 2)))
         
 
 
@@ -47,11 +47,18 @@ def next_birthday(request, birthday):
         format 'YYYY-MM-DD'
     """
     try:
-        next_date = datetime.strptime(birthday, '%Y-%m-%d')
+        #strptime transforms into datetime object w/ custom date attributes as 2nd parameter 
+        bday = datetime.strptime(birthday, '%Y-%m-%d')
     except ValueError:
         return HttpResponseBadRequest()
-        
-    difference = next_date - datetime.now()
+    now = datetime.now()    
+    current_bday = bday.replace(year=now.year)
+
+    if bday < now:
+        current_bday = current_bday.replace(year=current_bday.year+1)
+
+    difference = current_bday - now
+    
     return HttpResponse("Days until next birthday: {}".format(difference.days))
 
 
