@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseNotFound
 
 from .models import Artist
-# from .models import Artist, Song
+from .models import Artist, Song
 
 
 def artists(request):
@@ -32,17 +32,17 @@ def artists(request):
     
     #pass first_name parameter in url as so: 
     #http://wdc-django-practice-2.c9users.io:8080/artists/?first_name=Ed
-    url_parameter_first_name = request.GET.get('first_name')
-    if url_parameter_first_name:
-        artists = artists_objects.filter(first_name__icontains=url_parameter_first_name)
+    first_name = request.GET.get('first_name')
+    if first_name:
+        artists = artists.filter(first_name__icontains=first_name)
     
-    url_parameter_popularity = request.GET.get('popularity')
-    if url_parameter_popularity: 
-        artists = artists.filter(popularity__gte=url_parameter_popularity)
+    popularity = request.GET.get('popularity')
+    if popularity: 
+        artists = artists.filter(popularity__gte=popularity)
         
-    url_parameter_genre = request.GET.get('genre')
-    if url_parameter_genre:
-        artists = artists.filter(genre=url_parameter_genre)
+    genre = request.GET.get('genre')
+    if genre:
+        artists = artists.filter(genre=genre)
 
     return render(request, 'artists.html', context={'artists': artists})
 
@@ -83,4 +83,19 @@ def songs(request, artist_id=None):
             songs that match with given artist_id and render the same 'songs.html'
             template.
     """
-    pass
+    songs = Song.objects.all()
+    
+    if artist_id:
+        songs = songs.filter(artist_id=artist_id)
+        
+    title = request.GET.get('title')
+    if title:
+        songs = songs.filter(title__icontains=title)
+    
+    for song in songs:
+        artist = Artist.objects.get(id=song.artist_id)
+        song.artist = artist
+    
+    return render(request, 'songs.html', context={'songs': songs})
+
+    
