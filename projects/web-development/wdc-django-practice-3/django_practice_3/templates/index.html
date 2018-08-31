@@ -42,6 +42,31 @@
   <form action="{% url 'create_artist' %}" method='POST'> <!--  Add propper URL in form's action -->
     {% csrf_token %}
     <!-- Add here the fields for the 'Add Artist' form -->
+    <div>
+      Artistic name: <input type="text" name='artistic_name'> *
+    </div>
+    <div>
+      First name: <input type="text" name='first_name'>
+    </div>
+    <div>
+      Last name: <input type="text" name='last_name'>
+    </div>
+    <div>
+      Picture url: <input type="url" name='picture_url'>
+    </div>
+    <div>
+      Popularity: <input type="number" name='popularity' value=0>
+    </div>
+    <div>
+      Genre: <input type="text" name='genre'>
+    </div>
+    <br>
+    <div>
+        <i>Note: inputs with "*" symbol are required.</i>
+    </div>
+    <div>
+      <input type="submit" value="Add artist">
+    </div>
   </form>
   <hr>
 
