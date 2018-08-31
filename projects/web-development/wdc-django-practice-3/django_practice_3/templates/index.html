@@ -39,7 +39,7 @@
 
   <!-- Create Artist form -->
   <h3>Add a new Artist</h3>
-  <form action="" method='POST'> <!--  Add propper URL in form's action -->
+  <form action="{% url 'create_artist' %}" method='POST'> <!--  Add propper URL in form's action -->
     {% csrf_token %}
     <!-- Add here the fields for the 'Add Artist' form -->
   </form>
