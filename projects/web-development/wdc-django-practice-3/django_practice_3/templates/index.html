@@ -77,7 +77,7 @@
       <li>
         <label>{{ artist.artistic_name }}</label>
         <!-- Form for deleting an Artist -->
-        <form action="delete_artist" method='POST' class='inline'> <!--  Add propper URL in form's action -->
+        <form action="{% url 'delete_artist' %}" method='POST' class='inline'> <!--  Add propper URL in form's action -->
           {% csrf_token %}
           <!-- Add here the fields for the 'Delete Artist' form -->
           <input type="hidden" name="artist_id" value="{{artist.id}}">
