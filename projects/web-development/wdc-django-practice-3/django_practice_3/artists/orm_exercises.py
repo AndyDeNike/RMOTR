@@ -11,7 +11,8 @@ def task_1_artist_exists():
 def task_2_first_song_ordered():
     """Should return the first Song ordered by title"""
     # HINT: Use .first() function
-    pass
+    songs = Song.objects.order_by('title')
+    return songs[0]
 
 
 def task_3_last_artist_ordered():
