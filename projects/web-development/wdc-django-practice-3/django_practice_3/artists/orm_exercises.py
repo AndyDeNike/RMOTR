@@ -11,14 +11,14 @@ def task_1_artist_exists():
 def task_2_first_song_ordered():
     """Should return the first Song ordered by title"""
     # HINT: Use .first() function
-    songs = Song.objects.order_by('title')
-    return songs[0]
+    return Song.objects.order_by('title').first()
+
 
 
 def task_3_last_artist_ordered():
     """Should return the last Artist ordered by artistic_name"""
     # HINT: Use .last() function
-    pass
+    return Artist.objects.order_by('artistic_name').last()
 
 
 def task_4_artist_songs_contains():
