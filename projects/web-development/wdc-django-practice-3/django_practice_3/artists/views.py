@@ -54,7 +54,12 @@ def create_artist(request):
     return redirect('artists')
 
 def delete_artist(request):
-    pass
-
+    artist_id = request.POST['artist_id']
+    try:
+        artist = Artist.objects.get(id=artist_id)
+    except Artist.DoesNotExist:
+        return HttpResponseNotFound()
+    artist.delete()
+    return redirect('artists')
 
 
