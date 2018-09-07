@@ -10,7 +10,10 @@ def artists(request):
     if not request.user.is_authenticated:
         return redirect('login')
         
-    pass
+    if request.method=='GET':
+        artists = Artist.objects.all()
+        
+        return render(request, 'index.html', {'artists': artists})
 
 
 def delete_song(request):
