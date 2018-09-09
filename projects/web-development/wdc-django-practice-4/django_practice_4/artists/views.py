@@ -9,11 +9,15 @@ def artists(request):
     # validate that user is authenticated, and if not, redirect to login page
     if not request.user.is_authenticated:
         return redirect('login')
+       
+    artists = Artist.objects.all() 
+    #if request.method=='POST':
+    
+    artist_form = ArtistForm()
+    song_form = SongForm()
         
-    if request.method=='GET':
-        artists = Artist.objects.all()
-        
-        return render(request, 'index.html', {'artists': artists})
+    return render(request, 'index.html', context={'artists': artists, 
+                    'artist_form': artist_form, 'song_form': song_form})
 
 
 def delete_song(request):
