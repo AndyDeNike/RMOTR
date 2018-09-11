@@ -9,7 +9,10 @@ def task_1_q_object_advanced_lookup():
         title, OR its artist's artistic_name starts with Ed
     """
     # HINT: Use django Q object to allow "OR" expresions in .filter()
-    pass
+    return Song.objects.filter(
+            Q(title__icontains='Ground') |
+            Q(artist__artistic_name__startswith='Ed')
+        )
 
 
 def task_2_q_object_advanced_lookup():
@@ -19,7 +22,10 @@ def task_2_q_object_advanced_lookup():
     """
     # HINT: Use django Q object to allow "OR" and "AND" expresions combined.
     # Avoid using .filter() multiple times.
-    pass
+    return Song.objects.filter(
+            Q(title__startswith='S') | Q(title__startswith='C') &
+            Q(artist__artistic_name__icontains='W')
+        )
 
 
 def task_3_artists_update_popularity():
