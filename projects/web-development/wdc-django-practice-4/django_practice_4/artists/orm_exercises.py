@@ -31,7 +31,8 @@ def task_2_q_object_advanced_lookup():
 def task_3_artists_update_popularity():
     """Should add 10 popularity points to all artists"""
     # HINT: Use .update() function and django F object to refer to model's fields values
-    pass
+    Artist.objects.all().update(popularity=F('popularity') + 10)
+
 
 
 def task_4_songs_album_names():
@@ -39,4 +40,4 @@ def task_4_songs_album_names():
     # HINT: Use .values_list() function with 'flat' option, to get from the
     # database only the fields that you are interested in and not all the ones
     # in the model
-    pass
+    return Song.objects.all().values_list('album_name', flat=True).order_by('album_name')
