@@ -10,7 +10,8 @@ def text_response(request):
     Return a HttpResponse with a simple text message.
     Check that the default content type of the response must be "text/html".
     """
-    pass
+
+    return HttpResponse('This is a simple text message!')
 
 
 def looks_like_json_response(request):
