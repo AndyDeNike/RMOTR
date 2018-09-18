@@ -19,7 +19,8 @@ def looks_like_json_response(request):
     Return a HttpResponse with a text message containing something that looks
     like a JSON document, but it's just "text/html".
     """
-    pass
+    
+    return HttpResponse('{"json": "but its not really json"}')
 
 
 def simple_json_response(request):
@@ -27,7 +28,7 @@ def simple_json_response(request):
     Return an actual JSON response by setting the `content_type` of the HttpResponse
     object manually.
     """
-    pass
+    return HttpResponse('{"json": "real json son"}', content_type="application/json")
 
 
 def json_response(request):
