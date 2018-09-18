@@ -66,7 +66,11 @@ def only_post_request(request):
     everything is OK, and the status code `200`. If it's a different request
     method, return a `400` response with an error message.
     """
-    pass
+    if request.method == "POST":
+        content = {'status': 'Everything is OK!'}
+        return JsonResponse(content)
+    content = {'status': 'Everything is NOT OK!'}
+    return JsonResponse(content, status=400)
 
 
 @csrf_exempt
@@ -75,14 +79,31 @@ def post_payload(request):
     Write a view that only accepts POST requests, and processes the JSON
     payload available in `request.body` attribute.
     """
-    pass
+    if request.method != "POST":
+        return JsonResponse(
+            {"status": False, "message": "We only support POST!"}, status=400)
+    
+    try:
+        payload = json.loads(request.body.decode('utf-8'))
+    except ValueError: 
+        return JsonResponse(
+            {"status": False, "message": "Not a valid json payload"}, status=400)
+            
+    if not payload:
+        message = "We did not receive anything!"
+    else: 
+        message = "We received your message of: {}".format(dict(payload))
+    return JsonResponse({"status": True, "message": message})
+        
 
 
 def custom_headers(request):
     """
     Return a JsonResponse and add a custom header to it.
     """
-    pass
+    content = {"status": "True"}
+    content["custom"] = "header"
+    return JsonResponse(content)
 
 
 def url_int_argument(request, first_arg):
