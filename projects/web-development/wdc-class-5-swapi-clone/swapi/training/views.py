@@ -35,7 +35,8 @@ def json_response(request):
     """
     Return the same JSON document, but now using a JsonResponse instead.
     """
-    pass
+    content = {"json": "real json son"}
+    return JsonResponse(content)
 
 
 def json_list_response(request):
