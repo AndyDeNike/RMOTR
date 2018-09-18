@@ -55,7 +55,8 @@ def json_error_response(request):
     """
     Return a JsonResponse with an error message and 400 (Bad Request) status code.
     """
-    pass
+    content = {'status': 'error 400', 'message': 'Bad Request, get a good one!'}
+    return JsonResponse(content, status=400)
 
 
 @csrf_exempt
