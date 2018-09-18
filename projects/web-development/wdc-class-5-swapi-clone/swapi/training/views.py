@@ -47,7 +47,8 @@ def json_list_response(request):
     the JsonResponse object it order to avoid built-in validation.
     https://docs.djangoproject.com/en/2.0/ref/request-response/#jsonresponse-objects
     """
-    pass
+    content = [{"Reptile": "Snake"}, {"Mammal": "Dolphin"}]
+    return JsonResponse(content, safe=False)
 
 
 def json_error_response(request):
