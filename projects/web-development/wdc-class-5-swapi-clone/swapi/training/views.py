@@ -111,7 +111,8 @@ def url_int_argument(request, first_arg):
     Write a view that receives one integer parameter in the URL, and displays it
     in the response text.
     """
-    pass
+    return JsonResponse(
+        {"status": True, "message": "Your message is {}".format(first_arg)})
 
 
 def url_str_argument(request, first_arg):
