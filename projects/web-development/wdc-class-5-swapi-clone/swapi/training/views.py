@@ -139,4 +139,11 @@ def get_params(request):
     Write a view that receives GET arguments and display them in the
     response text.
     """
-    pass
+    arguments = request.GET 
+    
+    if not arguments:
+        message = "Please include parameter arguments"
+    else:
+        message = "Thank you for these parameter arguments: {}".format(arguments.dict())
+    
+    return JsonResponse({"status": True, "message": message})
