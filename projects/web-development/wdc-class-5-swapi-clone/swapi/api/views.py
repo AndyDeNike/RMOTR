@@ -42,12 +42,17 @@ def people_list_view(request):
             return JsonResponse({"success": False, 
             "message": "Please provide valid Json"}, status=400)
     
+    status = 200
     if request.method=='GET':
         people = People.objects.all()
         people = [serialize_people_as_json(person) for person in people]
     
+    else:
+        status = 400
+        return JsonResponse({"success": False, 
+        "message": "Only GET/POST requests are accepted!"}, status)
     
-    return JsonResponse(people, safe=False)
+    return JsonResponse(people, safe=False, status=status)
 
 
 @csrf_exempt
