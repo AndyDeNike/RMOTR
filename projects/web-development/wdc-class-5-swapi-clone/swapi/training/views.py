@@ -120,7 +120,8 @@ def url_str_argument(request, first_arg):
     Write a view that receives one string parameter in the URL, and displays it
     in the response text.
     """
-    pass
+    return JsonResponse(
+        {"status": True, "message": "Your message is {}".format(first_arg)})
 
 
 def url_multi_arguments(request, first_arg, second_arg):
@@ -128,7 +129,9 @@ def url_multi_arguments(request, first_arg, second_arg):
     Write a view that receives two parameters in the URL, and display them
     in the response text.
     """
-    pass
+    return JsonResponse(
+        {"status": True, 
+         "message": "Your message is {} and {}".format(first_arg, second_arg)})
 
 
 def get_params(request):
