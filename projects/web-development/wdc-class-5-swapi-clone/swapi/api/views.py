@@ -35,7 +35,19 @@ def people_list_view(request):
 
         * If submited payload is nos JSON valid, return a `400` response.
     """
-    pass
+    if request.body:
+        try:
+            payload = json.loads(request.body)
+        except ValueError:
+            return JsonResponse({"success": False, 
+            "message": "Please provide valid Json"}, status=400)
+    
+    if request.method=='GET':
+        people = People.objects.all()
+        people = [serialize_people_as_json(person) for person in people]
+    
+    
+    return JsonResponse(people, safe=False)
 
 
 @csrf_exempt
