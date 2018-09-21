@@ -70,7 +70,7 @@ def people_list_view(request):
                 status=400)
             
         data = serialize_people_as_json(person)
-        
+        status = 201
     
     else:
         status = 400
@@ -101,4 +101,9 @@ def people_detail_view(request, people_id):
 
         * If submited payload is nos JSON valid, return a `400` response.
     """
-    pass
+    try:
+        person = People.objects.get(id=people_id)
+    except People.DoesNotExist:
+        return JsonResponse(
+            {"success": False, "msg": "Could not find people with id: {}".format(people_id)},
+            status=404)
