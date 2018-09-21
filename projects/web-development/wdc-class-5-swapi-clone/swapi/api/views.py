@@ -37,8 +37,9 @@ def people_list_view(request):
     """
     if request.body:
         try:
-            payload = json.loads(request.body)
-            print(payload)
+            #https://www.geeksforgeeks.org/byte-objects-vs-string-python/
+            payload = json.loads(request.body.decode('utf-8'))
+            
         except ValueError:
             return JsonResponse({"success": False, 
             "message": "Please provide valid Json"}, status=400)
@@ -46,20 +47,29 @@ def people_list_view(request):
     status = 200
     if request.method=='GET':
         people = People.objects.all()
-        people = [serialize_people_as_json(person) for person in people]
+        data = [serialize_people_as_json(people) for people in people]
         
     elif request.method=='POST':
         planet_id = payload.get('homeworld', None)
         try:
-            personal_planet = Planet.objects.get(planet_id)
+            personal_planet = Planet.objects.get(id=planet_id)
         except DoesNotExist:
             return JsonResponse({"success": False, 
                 "message": "That planet doesn't exist!"}, status=400)
         
-        
+        try:
+            person = People.objects.create(
+                    name = payload['name'],
+                    homeworld = personal_planet,
+                    height = payload['height'],
+                    hair_color = payload['hair_color'],
+                    mass = payload['mass']
+                )
+        except (ValueError, KeyError):
+            return JsonResponse({"success": False, "message": "Invalid payload!"},
+                status=400)
             
-        pass
-        #People.objects.create()
+        data = serialize_people_as_json(person)
         
     
     else:
@@ -67,7 +77,7 @@ def people_list_view(request):
         return JsonResponse({"success": False, 
         "message": "Only GET/POST requests are accepted!"}, status)
     
-    return JsonResponse(people, safe=False, status=status)
+    return JsonResponse(data, safe=False, status=status)
 
 
 @csrf_exempt
