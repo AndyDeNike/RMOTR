@@ -38,6 +38,7 @@ def people_list_view(request):
     if request.body:
         try:
             payload = json.loads(request.body)
+            print(payload)
         except ValueError:
             return JsonResponse({"success": False, 
             "message": "Please provide valid Json"}, status=400)
@@ -46,6 +47,20 @@ def people_list_view(request):
     if request.method=='GET':
         people = People.objects.all()
         people = [serialize_people_as_json(person) for person in people]
+        
+    elif request.method=='POST':
+        planet_id = payload.get('homeworld', None)
+        try:
+            personal_planet = Planet.objects.get(planet_id)
+        except DoesNotExist:
+            return JsonResponse({"success": False, 
+                "message": "That planet doesn't exist!"}, status=400)
+        
+        
+            
+        pass
+        #People.objects.create()
+        
     
     else:
         status = 400
