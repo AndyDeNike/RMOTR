@@ -107,3 +107,19 @@ def people_detail_view(request, people_id):
         return JsonResponse(
             {"success": False, "msg": "Could not find people with id: {}".format(people_id)},
             status=404)
+
+    if request.body:
+        try:
+            payload = json.loads(request.body.decode('utf-8'))
+        except ValueError:
+            return JsonResponse({"success": False, 
+            "message": "Please provide valid Json"}, status=400)
+
+    status=200  
+    if request.method=='GET':
+        pass
+
+
+    data = serialize_people_as_json(person)
+    
+    return JsonResponse(data, safe=False, status=status)
