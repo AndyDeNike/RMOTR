@@ -107,17 +107,43 @@ def people_detail_view(request, people_id):
         return JsonResponse(
             {"success": False, "msg": "Could not find people with id: {}".format(people_id)},
             status=404)
-
+    
     if request.body:
         try:
             payload = json.loads(request.body.decode('utf-8'))
         except ValueError:
             return JsonResponse({"success": False, 
             "message": "Please provide valid Json"}, status=400)
-
+    
     status=200  
     if request.method=='GET':
         pass
+    
+    elif request.method in ['PATCH', 'PUT']:
+        for field in ['name', 'homeworld', 'height', 'mass', 'hair_color']:
+            if field not in payload:
+                if request.method == 'PATCH':
+                    continue 
+                else:
+                    return JsonResponse({"success": False,
+                        "message": "Field missing! PUT requires all fields present"
+                    })
+            
+            if field == 'homeworld':
+                try:
+                    payload['homeworld'] = Planet.objects.get(id=payload['homeworld'])
+                except Planet.DoesNotExist:
+                    return JsonResponse({"success": False,
+                    "message": "That planet doesn't exist!"}, status=400)
+            
+             
+            try:
+                setattr(person, field, payload[field])
+                person.save()
+            except ValueError:
+                return JsonResponse(
+                    {"success": False, "msg": "Provided payload is not valid"},
+                    status=400)
 
 
     data = serialize_people_as_json(person)
