@@ -38,6 +38,8 @@ def people_list_view(request):
     if request.body:
         try:
             #https://www.geeksforgeeks.org/byte-objects-vs-string-python/
+            #if there is a body we decode the bytes to string and loads it 
+            #as a python json object 
             payload = json.loads(request.body.decode('utf-8'))
             
         except ValueError:
@@ -48,6 +50,7 @@ def people_list_view(request):
     if request.method=='GET':
         people = People.objects.all()
         data = [serialize_people_as_json(people) for people in people]
+        print(people)
         
     elif request.method=='POST':
         planet_id = payload.get('homeworld', None)
@@ -144,8 +147,18 @@ def people_detail_view(request, people_id):
                 return JsonResponse(
                     {"success": False, "msg": "Provided payload is not valid"},
                     status=400)
-
-
+        
+        #data = serialize_people_as_json(person)
+    
+    elif request.method=='DELETE':
+        person.delete()
+        
+                    
+    else:
+        return JsonResponse({"success": False,
+        "message": "Your request must be GET/POST/PUT/PATCH or else death!"},
+        status=400)
+        
     data = serialize_people_as_json(person)
     
     return JsonResponse(data, safe=False, status=status)
