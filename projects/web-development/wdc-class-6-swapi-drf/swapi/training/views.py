@@ -50,6 +50,8 @@ class CustomHeader(APIView):
             "msg": "Check the response headers to get a surprise ;-)"
         }
         headers = {
-            'X-RMOTR-IS-AWESOME': True
+            'THIS-IS-A-SURPRISE': True
         }
         return Response(content, headers=headers)
+
+#reviewed
