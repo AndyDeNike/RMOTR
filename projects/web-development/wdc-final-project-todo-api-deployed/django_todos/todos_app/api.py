@@ -15,7 +15,10 @@ class BaseCSRFExemptView(View):
 
 class TodoListView(BaseCSRFExemptView):
     def get(self, request):
-        raise NotImplementedError('List GET')
+        #raise NotImplementedError('List GET')
+        todos = Todo.objects.all()
+        
+        
 
     def post(self, request):
         raise NotImplementedError('List POST')
