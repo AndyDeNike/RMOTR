@@ -28,7 +28,7 @@ class TodoListView(BaseCSRFExemptView):
             'filter': status,
             'count': todos.count(),
             'results': [
-                {'id': todo.id,ORPI
+                {'id': todo.id,
                  'title': todo.title,
                  'completed': todo.completed
                 } for todo in todos
@@ -41,11 +41,19 @@ class TodoListView(BaseCSRFExemptView):
 
     def post(self, request):
         raise NotImplementedError('List POST')
+        
 
 
 class TodoDetailView(BaseCSRFExemptView):
     def get(self, request, todo_id):
-        raise NotImplementedError('Detail POST')
+        #raise NotImplementedError('Detail POST')
+        todo = get_object_or_404(Todo, id=todo_id)
+        data = {
+            'id': todo.id,
+            'title': todo.title,
+            'completed': todo.completed
+        }
+        return JsonResponse(data)
 
     def delete(self, request, todo_id):
         raise NotImplementedError('Detail DELETE')
