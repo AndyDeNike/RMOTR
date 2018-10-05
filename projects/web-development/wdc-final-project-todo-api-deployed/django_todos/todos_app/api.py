@@ -40,8 +40,14 @@ class TodoListView(BaseCSRFExemptView):
         
 
     def post(self, request):
-        raise NotImplementedError('List POST')
+        data = json.loads(request.body.decode('utf-8'))
+        if 'title' not in data:
+            return JsonResponse({}, status=400)
+        title = data['title']
+        completed = data.get('completed', False)
         
+        Todo.objects.create(title=title, completed=completed)
+        return JsonResponse({}, status=201)
 
 
 class TodoDetailView(BaseCSRFExemptView):
