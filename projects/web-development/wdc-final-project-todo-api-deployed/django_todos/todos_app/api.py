@@ -17,6 +17,25 @@ class TodoListView(BaseCSRFExemptView):
     def get(self, request):
         #raise NotImplementedError('List GET')
         todos = Todo.objects.all()
+        status = request.GET.get('status', 'all')
+        
+        if status == 'active':
+            todos = todos.filter(completed=False)
+        elif status == 'completed':
+            todos = todos.filter(completed=True)
+        
+        data = {
+            'filter': status,
+            'count': todos.count(),
+            'results': [
+                {'id': todo.id,ORPI
+                 'title': todo.title,
+                 'completed': todo.completed
+                } for todo in todos
+                ]
+        }
+       
+        return JsonResponse(data)
         
         
 
