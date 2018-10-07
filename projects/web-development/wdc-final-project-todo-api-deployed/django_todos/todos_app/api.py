@@ -72,4 +72,15 @@ class TodoDetailView(BaseCSRFExemptView):
         raise NotImplementedError('Detail PATCH')
 
     def put(self, request, todo_id):
-        raise NotImplementedError('Detail PUT')
+        #raise NotImplementedError('Detail PUT')
+        todo = get_object_or_404(Todo, id=todo_id)
+        data = json.loads(request.body.decode('utf-8'))
+        for field in ['title', 'completed']:
+            if field not in data:
+                return JsonResponse({'error': 'Missing argument: {}'.format(field)}, status=400)
+            setattr(todo, field, data[field])
+            #todo[field] = data[field]
+            todo.save()
+        return HttpResponse(status=204)
+            
+                
