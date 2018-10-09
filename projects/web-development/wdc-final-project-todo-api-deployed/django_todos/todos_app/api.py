@@ -69,7 +69,20 @@ class TodoDetailView(BaseCSRFExemptView):
         
 
     def patch(self, request, todo_id):
-        raise NotImplementedError('Detail PATCH')
+ 
+        todo = get_object_or_404(Todo, id=todo_id)
+        data = json.loads(request.body.decode('utf-8'))
+        for field in ['title', 'completed', 'action']:
+            if field not in data:
+                continue
+            if field == 'action':
+                #todo.completed = not todo.completed
+                setattr(todo, 'completed', not todo.completed)
+                todo.save()
+                continue
+            setattr(todo, field, data[field])
+            todo.save()
+        return JsonResponse(data)
 
     def put(self, request, todo_id):
         #raise NotImplementedError('Detail PUT')
@@ -81,6 +94,6 @@ class TodoDetailView(BaseCSRFExemptView):
             setattr(todo, field, data[field])
             #todo[field] = data[field]
             todo.save()
-        return HttpResponse(status=204)
+        return JsonResponse(status=204)
             
                 
