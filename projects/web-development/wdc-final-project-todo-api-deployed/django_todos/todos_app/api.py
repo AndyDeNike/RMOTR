@@ -37,8 +37,6 @@ class TodoListView(BaseCSRFExemptView):
        
         return JsonResponse(data)
         
-        
-
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         if 'title' not in data:
@@ -76,14 +74,38 @@ class TodoDetailView(BaseCSRFExemptView):
             if field not in data:
                 continue
             if field == 'action':
-                #todo.completed = not todo.completed
-                setattr(todo, 'completed', not todo.completed)
+                #setattr(todo, 'completed', not todo.completed)  (ALTERNATIVE)
+                todo.completed = not todo.completed
                 todo.save()
                 continue
             setattr(todo, field, data[field])
             todo.save()
-        return JsonResponse(data)
+        return JsonResponse({
+            'id': todo.id,
+            'title': todo.title,
+            'completed': todo.completed,
+        })
+        
+        '''ALTERNATIVE
+        todo = get_object_or_404(Todo, id=todo_id)
+        data = json.loads(request.body)
 
+        if data.get('action') == 'toggle':
+            todo.completed = not todo.completed
+        else:
+            if 'title' in data:
+                todo.title = data['title']
+            if 'completed' in data:
+                todo.completed = data['completed']
+
+        todo.save()
+
+        return JsonResponse({
+            'id': todo.id,
+            'title': todo.title,
+            'completed': todo.completed,
+        })'''
+            
     def put(self, request, todo_id):
         #raise NotImplementedError('Detail PUT')
         todo = get_object_or_404(Todo, id=todo_id)
@@ -94,6 +116,25 @@ class TodoDetailView(BaseCSRFExemptView):
             setattr(todo, field, data[field])
             #todo[field] = data[field]
             todo.save()
-        return JsonResponse(status=204)
+        return HttpResponse(status=204)
+        
+        '''ALTERNATIVE
+        data = json.loads(request.body)
+        if 'title' not in data:
+            return JsonResponse({
+                'error': 'Missing argument: title'
+            }, status=400)
+        if 'completed' not in data:
+            return JsonResponse({
+                'error': 'Missing argument: completed'
+            }, status=400)
+
+        todo = get_object_or_404(Todo, id=todo_id)
+
+        todo.title = data['title']
+        todo.completed = data['completed']
+
+        todo.save()
+        return HttpResponse(status=204)'''
             
                 
