@@ -1,0 +1,1 @@
+# M2C12-class-inheritance
