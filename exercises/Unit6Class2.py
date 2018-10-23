@@ -111,5 +111,109 @@ def test_animals():
 
 
 '''
+3) Payroll
 
+Create a class Employee with two subclasses: SalariedEmployee and HourlyEmployee.
+
+Employee receives a name parameter and has a __str__ method (prints like "[name] makes [annual_income] annually").
+
+SalariedEmployee should receive parameters for name and salary. It has a method calculate_annual_income that returns the salary for that person.
+
+HourlyEmployee should receive parameters for name and hourly_wage. It has a method calculate_annual_income that returns the annual income, calculated by multiplying the hourly_wage * 40 (hrs per week) * 52 (weeks).
+
+The Payroll class receives a parameter for company and an optional argument for employee_list. If there is no employee_list, set it to an empty list. It has two methods:
+- add_employee receives an employee as a parameter and adds it to the employee_list
+- get_annual_payroll_cost adds up the total annual income for each employee in the employee_list and returns it
+
+Example:
+
+emp1 = SalariedEmployee("Bill", 60000)
+emp2 = HourlyEmployee("Ted", 25)
+
+emp1.name # "Bill"
+emp1.calculate_annual_income() # 60000
+print(emp1) # "Bill makes 60000 annually"
+
+emp1.calculate_annual_income() # 60000
+emp2.calculate_annual_income() # 52000
+
+payroll = Payroll("Excellent Adventures")
+payroll.company # "Excellent Adventures"
+
+payroll.add_employee(emp1)
+payroll.add_employee(emp2)
+payroll.get_annual_payroll_cost() # 112000
 '''        
+
+class Payroll(object):
+    def __init__(self, company, employee_list=None):
+        self.company = company
+        if not employee_list:
+            employee_list = []
+        self.employee_list = employee_list
+
+    def add_employee(self, employee):
+        self.employee_list.append(employee)
+
+    def get_annual_payroll_cost(self):
+        total = 0
+        for employee in self.employee_list:
+            total += employee.calculate_annual_income()
+        return total
+
+
+class Employee(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return "{name} makes {income} annually".format(name=self.name, income=self.calculate_annual_income())
+
+
+class SalariedEmployee(Employee):
+    def __init__(self, name, salary):
+        super(SalariedEmployee, self).__init__(name)
+        self.salary = salary
+
+    def calculate_annual_income(self):
+        return self.salary
+
+
+class HourlyEmployee(Employee):
+    def __init__(self, name, hourly_wage):
+        super(HourlyEmployee, self).__init__(name)
+        self.hourly_wage = hourly_wage
+
+    def calculate_annual_income(self):
+        return self.hourly_wage * 40 * 52
+
+#Test Cases
+
+def test_salaried():
+    emp1 = SalariedEmployee("Bill", 60000)
+
+    assert emp1.name == "Bill"
+    assert emp1.salary == 60000
+
+    assert emp1.calculate_annual_income() == 60000
+    assert str(emp1) == "Bill makes 60000 annually"
+
+def test_payroll():
+    emp1 = SalariedEmployee("Bill", 60000)
+    emp2 = HourlyEmployee("Ted", 25)
+    
+    payroll = Payroll("Excellent Adventures")
+    assert payroll.company == "Excellent Adventures"
+
+    payroll.add_employee(emp1)
+    payroll.add_employee(emp2)
+    assert payroll.get_annual_payroll_cost() == 112000
+
+def test_hourly():
+    emp1 = HourlyEmployee("Ted", 25)
+
+    assert emp1.name == "Ted"
+    assert emp1.hourly_wage == 25
+
+    assert emp1.calculate_annual_income() == 52000
+    assert str(emp1) == "Ted makes 52000 annually"
